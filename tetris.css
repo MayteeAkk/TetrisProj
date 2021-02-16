@@ -1,0 +1,73 @@
+body{
+    background: skyblue;
+}
+.game-arena
+{
+    display: table;
+    margin-right: auto;
+    margin-left: auto;
+    background-color: white;
+}
+.game-arena .block
+{
+    width: 40px;
+    height: 40px;
+    border:solid 1px #ddd;
+    display:inline-block;
+    font-size:10pt;
+    color:black;
+    text-align:center;
+    padding:5px;
+}
+
+.game-arena .row
+{
+    margin: 0px;
+    padding: 0px;
+    display: flex;
+}
+
+.game-arena .floor .block
+{
+    background:#333;
+}
+
+.game-arena .block.filled
+{
+    background-color: black;
+    color:white;
+}
+
+.next-block
+{
+    
+}
+.next-block .block
+{
+    width: 40px;
+    height: 40px;
+    border:solid 1px #ddd;
+    display:inline-block;
+    font-size:10pt;
+    color:black;
+    text-align:center;
+    padding:5px;
+}
+
+.next-block .row
+{
+    margin: 0px;
+    padding: 0px;
+    display: flex;
+}
+
+.next-block .floor .block
+{
+    background:#333;
+}
+
+.next-block .block.filled
+{
+    background-color: black;
+    color:white;
+}
