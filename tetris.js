@@ -55,8 +55,8 @@ function initializeGame(){  //Initializes the Game Arena
 }
 
 function removeAtIndex(i){
-    let locationoOfIndex = filledSquares.indexOf(i);
-    filledSquares.splice(locationoOfIndex, 1);
+    let locationOfIndex = filledSquares.indexOf(i);
+    filledSquares.splice(locationOfIndex, 1);
 }
 
 function step(){
@@ -90,7 +90,6 @@ function startTimer(){
         direction = 'down';
         drawPiece();
     }, 800);
-    
 }
 
 function createPieces(){ //This will Initialize and create the Pieces for the Game
@@ -125,11 +124,11 @@ function makePiece(){  //Makes the Piece Object
         relLocation: getRelativeLocation(shape, location)
     };
 
-    // if (hasCollided()){
-    //     isGameRunning = '2'; //Stops the Game
-    //     document.getElementById('points').innerHTML += 'Sorry! Game Over!';
-    //     clearInterval(timer);
-    // }
+    if (hasCollided()){
+        isGameRunning = '2'; //Stops the Game
+        document.getElementById('points').innerHTML += 'Sorry! Game Over!';
+        clearInterval(timer);
+    }
 }
 
 function getRelativeLocation(shape, location){
@@ -263,7 +262,7 @@ function checkYCollision(){ //collided
     let blocks = currentPiece.shape;
     let locationOnBoard = currentPiece.locationOnBoard;
     let collided = false;
-
+    
     for(let a = 0; a < blocks.length; a++){
         let selectedBlock = blocks[a];
         let x = selectedBlock[0] + locationOnBoard[0];
@@ -275,7 +274,11 @@ function checkYCollision(){ //collided
 
         let queryBlock = document.querySelector('[data-x="' + x + '"][data-y="' + y + '"]');
 
-        if(filledSquares.indexOf(queryBlock.dataset.index) > -1 || y == height){
+        if(y == height){
+            collided = true;
+            break;
+        }
+        if(filledSquares.indexOf(queryBlock.dataset.index) > -1){
             collided = true;
             break;
         }
@@ -316,17 +319,17 @@ function checkRowForCompletion(){
         }
 
         if (lineFilled){
-            if(start == 0){
-                start = y;
+            if(shift == 0){
+                shift = a;
             }
 
             accum++;
 
             for(let c = 0; c < width; c++){ //Clears the Line Graphically
-                let queryBlock = document.querySelector('[data-x="' + c + '"][data-y="' + a + '"]');
-                queryBlock.dataset.state = '0';
-                queryBlock.style.backgroundColor = 'white';
-                removeAtIndex(queryBlock.dataset.index);
+                let qBlock = document.querySelector('[data-x="' + c + '"][data-y="' + a + '"]');
+                qBlock.dataset.state = '0';
+                qBlock.style.backgroundColor = 'white';
+                removeAtIndex(qBlock.dataset.index);
             }
         }
     }
@@ -343,7 +346,7 @@ function shiftBlocksDown(accum, shift){
         for(let b = 0; b < width; b++){
             let y = a + accum;
             let queryBlock = document.querySelector('[data-x="' + b + '"][data-y="' + a + '"]');
-            let nextBlock = document.querySelector=('[data-x="' + b + '"][data-y="' + y + '"]');
+            let nextBlock = document.querySelector('[data-x="' + b + '"][data-y="' + y + '"]');
 
             if(queryBlock.dataset.state == '1'){
                 nextBlock.style.backgroundColor = queryBlock.style.backgroundColor;
@@ -409,28 +412,28 @@ function rotatePiece(){
     currentPiece.relLocation = getRelativeLocation(newOrientation, currentPiece.locationOnBoard);
 }
 
-function getNewHeight(){
-    let y = 0;
-
-    for(let a = 0; a < currentPiece.shape.length; a++){
-        let currentBlock = currentPiece.shape[a];
-        if(currentBlock[1] > y){
-            y = currentBlock[1];
-        }
-    }
-
-    return y;
-}
-
-// function getNewWidth(){
-//     let x = 0;
+// function getNewHeight(){
+//     let y = 0;
 
 //     for(let a = 0; a < currentPiece.shape.length; a++){
 //         let currentBlock = currentPiece.shape[a];
-//         if(currentBlock[0] > x){
-//             x = currentBlock[0];
+//         if(currentBlock[1] > y){
+//             y = currentBlock[1];
 //         }
 //     }
 
-//     return x;
+//     return y;
 // }
+
+function getNewWidth(){
+    let x = 0;
+
+    for(let a = 0; a < currentPiece.shape.length; a++){
+        let currentBlock = currentPiece.shape[a];
+        if(currentBlock[0] > x){
+            x = currentBlock[0];
+        }
+    }
+
+    return x;
+}
